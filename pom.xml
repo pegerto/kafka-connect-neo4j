@@ -71,7 +71,12 @@
       <version>1.7.0</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <scope>test</scope>
+      <version>3.5.1</version>
+    </dependency>
 
   </dependencies>
 </project>
