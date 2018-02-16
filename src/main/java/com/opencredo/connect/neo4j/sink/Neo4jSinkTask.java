@@ -29,6 +29,8 @@ public class Neo4jSinkTask extends SinkTask {
         if (records.isEmpty()) {
             return;
         }
+
+       writer.write(records);
     }
 
     public void stop() {
