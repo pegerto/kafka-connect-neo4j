@@ -1,14 +1,11 @@
 package com.opencredo.connect.neo4j.sink;
 
 import com.opencredo.connect.neo4j.util.Neo4jBoltRule;
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.easymock.EasyMockSupport;
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.easymock.EasyMock.eq;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
