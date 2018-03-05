@@ -1,12 +1,18 @@
 package com.opencredo.connect.neo4j.sink;
 
+import com.opencredo.connect.neo4j.util.Cypher;
+import org.apache.kafka.connect.data.Field;
+import org.apache.kafka.connect.data.Schema;
+import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.neo4j.driver.v1.*;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.neo4j.driver.v1.Values.parameters;
+import static org.neo4j.driver.v1.Values.value;
 
 public class Neo4jWriter {
 
@@ -28,7 +34,7 @@ public class Neo4jWriter {
                 @Override
                 public Integer execute(Transaction tx) {
                     for (SinkRecord record: records) {
-                        createNode(tx, record.topic(), 0);
+                        createNode(tx, record.topic(), record);
                     }
                     return 0;
                 }
@@ -36,10 +42,22 @@ public class Neo4jWriter {
         }
     }
 
-    private int createNode(Transaction tx, String nodeType, Object id)
+    private int createNode(Transaction tx, String topic,  SinkRecord record)
     {
-        tx.run( "CREATE (n:"+nodeType +" { name:$name })",
-                parameters("name", id));
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put(Cypher.NODE_ID, record.key());
+        if (!record.valueSchema().type().isPrimitive()){
+            Struct value = (Struct) record.value();
+            for (Field field: record.valueSchema().fields()){
+                parameterMap.put(field.name(), value.get(field));
+            }
+        }
+
+        final String clause = new Cypher.CreateClauseBuilder(topic)
+                .fields(record.valueSchema().type() == Schema.Type.STRUCT?record.valueSchema().fields():null)
+                .build();
+
+        tx.run( clause, value(parameterMap));
         return 1;
     }
 
