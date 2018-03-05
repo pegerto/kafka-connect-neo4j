@@ -45,6 +45,15 @@
       <artifactId>neo4j</artifactId>
       <version>3.3.2</version>
     </dependency>
+
+
+    <dependency>
+      <groupId>org.neo4j.test</groupId>
+      <artifactId>neo4j-harness</artifactId>
+      <version>3.3.3</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

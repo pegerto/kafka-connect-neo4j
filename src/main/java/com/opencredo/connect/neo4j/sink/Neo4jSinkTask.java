@@ -22,7 +22,7 @@ public class Neo4jSinkTask extends SinkTask {
 
     public void start(Map<String, String> map) {
         log.info("Starting task");
-        writer = new Neo4jWriter();
+        writer = new Neo4jWriter("bolt://localhost:7474");
     }
 
     public void put(Collection<SinkRecord> records) {
